@@ -40,13 +40,14 @@ export const reducer = createReducer(
       loadStatus: 'LOADING'
     };
   }),
-  on(TodoActions.addTodo,
+  on(TodoActions.addTodoSuccess,
     (state, action) => adapter.addOne(action.todo, {
       ...state,
       pagination: {
         ...state.pagination,
         total: state.pagination.total + 1,
         numberOfPages: ((state.pagination.total +1) > (state.pagination.size * state.pagination.numberOfPages)) ? state.pagination.numberOfPages + 1 : state.pagination.numberOfPages,
+        page: (((state.pagination.total +1) > (state.pagination.size * state.pagination.numberOfPages)) && state.pagination.page === state.pagination.numberOfPages) ? state.pagination.page + 1 : state.pagination.page
       }
     })
   ),
