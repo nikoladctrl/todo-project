@@ -1,0 +1,5 @@
+<div class="content" *ngIf="pagination">
+    <span class="box" *ngIf="pagination.page > 1" (click)="to(pagination.page - 1)">&lt;</span>
+    <span class="text">{{ pagination.page }} of {{ pagination.numberOfPages }}</span>
+    <span class="box" *ngIf="pagination.hasNext || pagination.page < pagination.numberOfPages" (click)="to(pagination.page + 1)">&gt;</span>
+</div>

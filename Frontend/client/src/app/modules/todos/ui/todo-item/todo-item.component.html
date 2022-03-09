@@ -1,0 +1,16 @@
+<ng-container *ngIf="todo">
+    <nb-accordion>
+        <nb-accordion-item>
+            <nb-accordion-item-header>{{ todo.id }} {{ todo.title }}</nb-accordion-item-header>
+            <nb-accordion-item-body>
+                <div class="item-body">
+                    <span class="content">{{ todo.content }}</span>
+                </div>
+                <div class="item-body">
+                    <button #edit nbButton status="warning" type="button" (click)="onAction(edit, todo.id)">Edit</button>&nbsp;
+                    <button nbButton status="danger" type="button" (click)="onDelete(todo.id)">Delete</button>
+                </div>
+            </nb-accordion-item-body>
+        </nb-accordion-item>
+    </nb-accordion>
+</ng-container>

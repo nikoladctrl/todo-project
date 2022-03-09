@@ -1,0 +1,23 @@
+nb-accordion {
+    margin: 5px 0;
+}
+
+nb-accordion-item-body {
+    display: flex;
+    justify-content: space-between;
+}
+
+.item-body {
+    display: flex;
+    justify-content: space-between;
+}
+
+.content {
+    max-width: 100%;
+}
+
+.buttons {
+    display: flex;
+    justify-content: end;
+    min-width: 25%;
+}

@@ -1,0 +1,29 @@
+.content {
+    display: flex;
+    justify-content: center;
+}
+
+.text {
+    // line-height: 40px;
+    padding: 10px;
+}
+
+.box {
+    display: flex;
+    width: 30px;
+    height: 30px;
+    border: rgba(161, 110, 255, 0.4) solid 1px;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+}
+
+.box:hover {
+    cursor: pointer;
+    background-color: #0095ff;
+}
+
+#current {
+    background-color: #0041a8;
+}

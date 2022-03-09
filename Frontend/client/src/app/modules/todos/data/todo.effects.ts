@@ -1,0 +1,68 @@
+import { PaginationParams } from './../../../shared/static/pagination-params.model';
+import { Store } from '@ngrx/store';
+import { Injectable } from '@angular/core';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { TodoService } from 'src/app/core/services/todo.service';
+import * as TodoActions from './todo.actions';
+import { concatMap, exhaustMap, filter, map, switchMap, tap } from 'rxjs/operators';
+import * as fromTodoSelectors from './todo.selectors';
+import { Todo } from 'src/app/core/models/todo.model';
+import { Router } from '@angular/router';
+
+
+
+@Injectable()
+export class TodoEffects {
+
+  getTodos$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TodoActions.getTodos),
+      concatLatestFrom(() => this.store.select(fromTodoSelectors.selectContentExists)),
+      filter(([, contentExists]) => !contentExists),
+      map(() => TodoActions.loadTodos())
+    )
+  );
+
+  loadTodos$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TodoActions.loadTodos),
+      concatLatestFrom(() => this.store.select(fromTodoSelectors.selectPagination)),
+      switchMap(([, pagination]) => this.todoService.getTodos(pagination.page, pagination.size)),
+      map(paginatedData => TodoActions.loadTodosSuccess({ paginatedTodos: paginatedData }))
+    )
+  );
+
+  addTodo = createEffect(() =>
+    this.actions$.pipe(
+        ofType(TodoActions.addTodo),
+        exhaustMap((action) => this.todoService.createTodo(action.todo)),
+        map((todo: Todo) => TodoActions.addTodoSuccess({ todo })),
+        tap(() => this.router.navigate(['/todos']))
+    )
+  );
+
+  updateTodo$ = createEffect(() =>
+    this.actions$.pipe(
+        ofType(TodoActions.updateTodo),
+        concatMap((action) => this.todoService.updateTodo(action.todo)),
+        map((todo: Todo) => TodoActions.updateTodoSuccess({ todo: { id: todo.id, changes: todo } }))
+    )
+  );
+
+  deleteTodo$ = createEffect(() =>
+    this.actions$.pipe(
+        ofType(TodoActions.deleteTodo),
+        switchMap((action) => this.todoService.deleteTodo(action.id)),
+        map(() => TodoActions.deleteTodoSuccess()),
+        tap(() => this.router.navigate(['/todos']))
+    )
+  );
+
+  constructor(
+    private actions$: Actions, 
+    private store: Store, 
+    private todoService: TodoService, 
+    private router: Router
+  ) {}
+
+}
