@@ -73,11 +73,10 @@ export const reducer = createReducer(
     (state, action) => adapter.removeOne(action.id, {
       ...state,
       pagination: {
-        // improve logic for deleting items and updating pagination params
         ...state.pagination,
         total: state.pagination.total - 1,
         page: ((state.pagination.page - 1) * state.pagination.size === state.pagination.total - 1) ? state.pagination.page - 1 : state.pagination.page,
-        numberOfPages: ((state.pagination.page - 1) * state.pagination.size === state.pagination.total - 1) ? state.pagination.numberOfPages - 1 : state.pagination.numberOfPages
+        numberOfPages: ((state.pagination.numberOfPages - 1) * state.pagination.size === state.pagination.total - 1) ? state.pagination.numberOfPages - 1 : state.pagination.numberOfPages
       }
     })
   ),
