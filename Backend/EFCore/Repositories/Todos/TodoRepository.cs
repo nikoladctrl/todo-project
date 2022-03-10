@@ -43,7 +43,12 @@ namespace EFCore.Repositories.Todos
         public async Task<PaginationResult<Todo>> GetTodos(PaginationParams @params)
         {
             var query = _context.Todos
-                                .OrderBy(o => o.Id);
+                                .OrderBy(o => o.Id)
+                                .AsQueryable();
+
+            if (!String.IsNullOrEmpty(@params.Filter)) {
+                query = query.Where(t => t.Title.ToLower().Contains(@params.Filter.ToLower()) || t.Content.ToLower().Contains(@params.Filter.ToLower()));
+            }
 
             var total = query.Count();
 

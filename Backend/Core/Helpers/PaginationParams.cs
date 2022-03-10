@@ -13,7 +13,7 @@ namespace Core.Helpers
         public int? Total { get; set; }
         public bool? HasPrevious => Page > 1;
         public bool? HasNext => Page < NumberOfPages;
-
+        public string Filter { get; set; }
 
         public PaginationParams()
         {
