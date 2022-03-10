@@ -4,12 +4,14 @@ import { Todo } from '../../../core/models/todo.model';
 import * as TodoActions from './todo.actions';
 import { PaginationParams } from 'src/app/shared/static/pagination-params.model';
 import * as fromTodoSelectors from './todo.selectors';
+import { isDataSource } from '@angular/cdk/collections';
 
 export const todosFeatureKey = 'todos';
 
 export interface State extends EntityState<Todo> {  
-  loadStatus: 'NOT_LOADED' | 'LOADING' | 'LOADED';
+  loadStatus: 'NOT_LOADED' | 'LOADING' | 'LOADED' | 'FULLY_LOADED';
   pagination: PaginationParams;
+  filter: string;
 }
 
 export const adapter: EntityAdapter<Todo> = createEntityAdapter<Todo>();
@@ -23,7 +25,8 @@ export const initialState: State = adapter.getInitialState({
     total: null,
     hasNext: null,
     hasPrevious: null
-  }
+  },
+  filter: null
 });
 
 export const reducer = createReducer(
@@ -31,7 +34,8 @@ export const reducer = createReducer(
   on(TodoActions.getTodos, (state, action) => {
     return {
       ...state,
-      pagination: action.pagination
+      pagination: action.pagination,
+      filter: action.searchFor
     };
   }),
   on(TodoActions.loadTodos, (state) => {
@@ -87,7 +91,7 @@ export const reducer = createReducer(
     (state, action) => adapter.addMany(action.paginatedTodos.items, {
       ...state,
       pagination: { ...action.paginatedTodos.pagination },
-      loadStatus: 'LOADED'
+      loadStatus: action.paginatedTodos.pagination.total === state.ids.length ? 'FULLY_LOADED' : 'LOADED'
     })
   ),
   on(TodoActions.clearTodos,

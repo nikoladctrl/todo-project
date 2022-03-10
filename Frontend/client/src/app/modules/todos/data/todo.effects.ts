@@ -18,7 +18,7 @@ export class TodoEffects {
     this.actions$.pipe(
       ofType(TodoActions.getTodos),
       concatLatestFrom(() => this.store.select(fromTodoSelectors.selectContentExists)),
-      filter(([, contentExists]) => !contentExists),
+      filter(([action, contentExists]) => !contentExists || action.searchFor !== null),
       map(() => TodoActions.loadTodos())
     )
   );
@@ -26,8 +26,9 @@ export class TodoEffects {
   loadTodos$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TodoActions.loadTodos),
-      concatLatestFrom(() => this.store.select(fromTodoSelectors.selectPagination)),
-      switchMap(([, pagination]) => this.todoService.getTodos(pagination.page, pagination.size)),
+      concatLatestFrom(() => this.store.select(fromTodoSelectors.selectPaginationAndFilter)),
+      tap((data) => console.log('data sent on backend', data)),
+      switchMap(([, paginationAndFilter]) => this.todoService.getTodos(paginationAndFilter.pagination.page, paginationAndFilter.pagination.size, paginationAndFilter.filter ?? '')),
       map(paginatedData => TodoActions.loadTodosSuccess({ paginatedTodos: paginatedData }))
     )
   );

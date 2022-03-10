@@ -8,7 +8,7 @@ import { Todo } from '../../../core/models/todo.model';
 
 export const getTodos = createAction(
   '[Todo List Component] Get Todos',
-  props<{ pagination: PaginationParams }>()
+  props<{ pagination: PaginationParams, searchFor?: string }>()
 );
 
 export const loadTodos = createAction(

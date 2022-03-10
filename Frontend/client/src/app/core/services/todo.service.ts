@@ -14,9 +14,9 @@ export class TodoService {
 
   constructor(private http: HttpClient) { }
 
-  getTodos(page: number, size: number) {
-    let params = new HttpParams().set('page', JSON.stringify(page)).append('size', JSON.stringify(size));
-    return this.http.get<PaginationResult<Todo>>(this.url, { params: params }).pipe(tap(todos => console.log(todos)));
+  getTodos(page: number, size: number, filter?: string) {
+    let params = new HttpParams().set('page', JSON.stringify(page)).append('size', JSON.stringify(size)).append('filter', filter);
+    return this.http.get<PaginationResult<Todo>>(this.url, { params: params }) /*.pipe(tap(todos =>console.log(todos)))*/;
   }
 
   getTodo(id: number) {

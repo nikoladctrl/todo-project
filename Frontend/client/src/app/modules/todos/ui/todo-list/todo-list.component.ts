@@ -1,6 +1,6 @@
 import { Store } from '@ngrx/store';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { Todo } from 'src/app/core/models/todo.model';
 import * as TodoActions from '../../data/todo.actions';
 import * as fromTodoSelectors from '../../data/todo.selectors';
@@ -15,16 +15,19 @@ import { last, take, tap } from 'rxjs/operators';
   styleUrls: ['./todo-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TodoListComponent implements OnInit {
+export class TodoListComponent implements OnInit, OnDestroy {
 
   vm$: Observable<TodoListViewModel>;
   pagination: PaginationParams;
+  subscriptions: Subscription[] = [];
 
   constructor(private store: Store<AppState>, private cdRef: ChangeDetectorRef) { }
-
+  
   ngOnInit(): void {
-    this.store.select(fromTodoSelectors.selectPagination).pipe(take(1)).subscribe(pagination => 
-      this.store.dispatch(TodoActions.getTodos({ pagination }))
+    this.subscriptions.push(
+      this.store.select(fromTodoSelectors.selectPagination).pipe(take(1)).subscribe(pagination => 
+        this.store.dispatch(TodoActions.getTodos({ pagination }))
+      )
     );
     this.vm$ = this.store.select(fromTodoSelectors.selectTodoListVM).pipe(tap(data => console.log(data)));
   }
@@ -57,6 +60,17 @@ export class TodoListComponent implements OnInit {
   }
 
   onSearch(searchFor: string) {
-    console.log('parent ', searchFor);
+    // console.log('parent ', searchFor);
+    this.subscriptions.push(
+      this.store.select(fromTodoSelectors.selectPagination).pipe(take(1))
+      .subscribe((pagination: PaginationParams) => {
+        this.store.dispatch(TodoActions.getTodos({ pagination, searchFor }));
+      })
+    );
   }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(s => s.unsubscribe());
+  }
+
 }

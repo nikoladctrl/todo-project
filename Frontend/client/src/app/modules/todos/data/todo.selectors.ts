@@ -23,6 +23,11 @@ export const selectPagination = createSelector(
     (state: fromTodo.State): PaginationParams => state.pagination
 );
 
+export const selectPaginationAndFilter = createSelector(
+    selectTodoState,
+    (state: fromTodo.State): { pagination: PaginationParams, filter: string } => ({ pagination: state.pagination, filter: state.filter })
+);
+
 export const selectTodos = createSelector(
     fromTodo.selectAll,
     selectPagination,
