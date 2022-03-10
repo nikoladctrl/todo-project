@@ -70,7 +70,7 @@ namespace EFCore.Repositories.Todos
             var todos = await query
                         .Skip((@params.PaginationParams.Page - 1) * @params.PaginationParams.Size)
                         .Take(@params.PaginationParams.Size)
-                        .AsSingleQuery()
+                        .AsNoTracking()
                         .ToListAsync();
 
             return new PaginationResult<Todo>(todos, @params.PaginationParams.Page, @params.PaginationParams.Size, total);
@@ -82,7 +82,7 @@ namespace EFCore.Repositories.Todos
                                 .OrderBy(t => t.Id)
                                 .AsQueryable();
 
-            if (String.IsNullOrEmpty(filter)) {
+            if (!String.IsNullOrEmpty(filter)) {
                 query = query.Where(t => t.Title.ToLower().Contains(filter.ToLower()) || t.Content.ToLower().Contains(filter.ToLower()));
             }
 
