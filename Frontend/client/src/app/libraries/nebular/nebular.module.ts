@@ -10,7 +10,9 @@ import {
   NbButtonModule, 
   NbButtonGroupModule,
   NbAccordionModule,
-  NbCheckboxModule
+  NbCheckboxModule,
+  NbFormFieldModule,
+  NbIconModule
 } from '@nebular/theme';
 
 
@@ -28,6 +30,8 @@ import {
     NbButtonGroupModule,
     NbAccordionModule,
     NbCheckboxModule,
+    NbFormFieldModule,
+    NbIconModule,
   ],
   exports: [
     NbThemeModule,
@@ -41,6 +45,8 @@ import {
     NbAccordionModule,
     NbButtonModule,
     NbCheckboxModule,
+    NbFormFieldModule,
+    NbIconModule,
   ]
 })
 export class NebularModule { }

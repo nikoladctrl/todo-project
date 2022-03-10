@@ -3,25 +3,30 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
 import { NebularModule } from '../libraries/nebular/nebular.module';
 import { PaginationComponent } from './components/pagination/pagination.component';
-import { NgxPaginationModule } from 'ngx-pagination';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    PaginationComponent
+    PaginationComponent,
+    SearchBarComponent,
   ],
   imports: [
     CommonModule,
     NebularModule,
-    NgxPaginationModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   exports: [
     HeaderComponent,
     PaginationComponent,
     NebularModule,
-    NgxPaginationModule,
+    SearchBarComponent,
+    FormsModule,
+    ReactiveFormsModule,
   ]
 })
 export class SharedModule { }

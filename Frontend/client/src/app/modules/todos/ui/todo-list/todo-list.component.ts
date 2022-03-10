@@ -18,6 +18,7 @@ import { last, take, tap } from 'rxjs/operators';
 export class TodoListComponent implements OnInit {
 
   vm$: Observable<TodoListViewModel>;
+  pagination: PaginationParams;
 
   constructor(private store: Store<AppState>, private cdRef: ChangeDetectorRef) { }
 
@@ -53,5 +54,9 @@ export class TodoListComponent implements OnInit {
       
   onChangePage(pagination: PaginationParams) {
     this.store.dispatch(TodoActions.getTodos({ pagination }));
+  }
+
+  onSearch(searchFor: string) {
+    console.log('parent ', searchFor);
   }
 }

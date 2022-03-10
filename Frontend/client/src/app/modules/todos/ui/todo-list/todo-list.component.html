@@ -1,4 +1,5 @@
 <ng-container *ngIf="(vm$ | async) as vm">
+    <app-search-bar (searchFor)="onSearch($event)"></app-search-bar>
     <button nbButton status="success" (click)="onCreate()">Create new</button>
     <app-todo-item *ngFor="let todo of vm.todos" [todo]="todo" (action)="onAction($event)"></app-todo-item>
     <app-pagination [pagination]="vm.pagination" (newPagination)="onChangePage($event)"></app-pagination>
