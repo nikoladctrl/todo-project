@@ -46,5 +46,10 @@ namespace BusinessLayer.Services.Todos
         {
             return _mapper.Map<TodoDto>(await _todoRepository.GetTodo(id));
         }
+
+        public async Task<PaginationResult<TodoDto>> GetFilteredTodos(PaginationWithFiltersDto @params)
+        {
+            return _mapper.Map<PaginationResult<TodoDto>>(await _todoRepository.GetFilteredTodos(@params));
+        }
     }
 }

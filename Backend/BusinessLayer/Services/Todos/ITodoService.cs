@@ -14,5 +14,6 @@ namespace BusinessLayer.Services.Todos
         Task DeleteTodo(int id);
         Task<PaginationResult<TodoDto>> GetTodos(PaginationParams @params);
         Task<TodoDto> GetTodo(int id);
+        Task<PaginationResult<TodoDto>> GetFilteredTodos(PaginationWithFiltersDto @params);
     }
 }
