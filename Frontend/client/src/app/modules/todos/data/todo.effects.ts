@@ -27,7 +27,6 @@ export class TodoEffects {
     this.actions$.pipe(
       ofType(TodoActions.loadTodos),
       concatLatestFrom(() => this.store.select(fromTodoSelectors.selectPaginationAndFilter)),
-      tap((data) => console.log('data sent on backend', data)),
       switchMap(([, paginationAndFilter]) => this.todoService.getTodos(paginationAndFilter.pagination.page, paginationAndFilter.pagination.size, paginationAndFilter.filter ?? '')),
       map(paginatedData => TodoActions.loadTodosSuccess({ paginatedTodos: paginatedData }))
     )
@@ -58,6 +57,15 @@ export class TodoEffects {
         tap(() => this.router.navigate(['/todos']))
     )
   );
+
+  clearState$ = createEffect(() => {
+    return this.actions$.pipe(
+        ofType(TodoActions.getTodos),
+        concatLatestFrom(() => this.store.select(fromTodoSelectors.selectIsFilter)),
+        filter(([, filter]) => filter),
+        map(() => TodoActions.clearTodos())
+    );
+  });
 
   constructor(
     private actions$: Actions, 

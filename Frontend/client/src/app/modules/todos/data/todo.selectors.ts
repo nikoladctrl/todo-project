@@ -23,6 +23,11 @@ export const selectPagination = createSelector(
     (state: fromTodo.State): PaginationParams => state.pagination
 );
 
+export const selectIsFilter = createSelector(
+    selectTodoState,
+    (state: fromTodo.State) : boolean => (state.filter !== null && state.filter !== undefined) ? true : false 
+);
+
 export const selectPaginationAndFilter = createSelector(
     selectTodoState,
     (state: fromTodo.State): { pagination: PaginationParams, filter: string } => ({ pagination: state.pagination, filter: state.filter })

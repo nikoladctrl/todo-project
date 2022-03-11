@@ -58,7 +58,7 @@ namespace EFCore.Repositories.Todos
                         .AsSingleQuery()
                         .ToListAsync();
 
-            return new PaginationResult<Todo>(todos, @params.Page, @params.Size, total);
+            return new PaginationResult<Todo>(todos, @params.Page, @params.Size, total, @params.Filter);
         }
 
         public async Task<Todo> GetTodo(int id)
