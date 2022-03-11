@@ -21,11 +21,11 @@ namespace Core.Helpers
             Pagination = new PaginationParams(page, size, total);
         }
 
-        public PaginationResult(List<T> items, int page, int size, int total, FilteringParams filteringParams)
+        public PaginationResult(List<T> items, int page, int size, int total, string filter)
         {
             Items = items;
             Pagination = new PaginationParams(page, size, total);
-            FilteringParams = filteringParams;
+            FilteringParams = new FilteringParams(filter);
         }
     }
 }

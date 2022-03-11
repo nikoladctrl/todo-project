@@ -46,19 +46,19 @@ namespace EFCore.Repositories.Todos
                                 .OrderBy(o => o.Id)
                                 .AsQueryable();
 
-            if (!String.IsNullOrEmpty(@params.FilteringParams.Filter)) {
-                query = query.Where(t => t.Title.ToLower().Contains(@params.FilteringParams.Filter.ToLower()) || t.Content.ToLower().Contains(@params.FilteringParams.Filter.ToLower()));
+            if (!String.IsNullOrEmpty(@params.Filter)) {
+                query = query.Where(t => t.Title.ToLower().Contains(@params.Filter.ToLower()) || t.Content.ToLower().Contains(@params.Filter.ToLower()));
             }
 
             var total = query.Count();
 
             var todos = await query
-                        .Skip((@params.PaginationParams.Page - 1) * @params.PaginationParams.Size)
-                        .Take(@params.PaginationParams.Size)
+                        .Skip((@params.Page - 1) * @params.Size)
+                        .Take(@params.Size)
                         .AsSingleQuery()
                         .ToListAsync();
 
-            return new PaginationResult<Todo>(todos, @params.PaginationParams.Page, @params.PaginationParams.Size, total, @params.FilteringParams);
+            return new PaginationResult<Todo>(todos, @params.Page, @params.Size, total, @params.Filter);
         }
 
         public async Task<Todo> GetTodo(int id)

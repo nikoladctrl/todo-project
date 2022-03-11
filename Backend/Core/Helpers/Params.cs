@@ -7,7 +7,8 @@ namespace Core.Helpers
 {
     public class Params
     {
-        public PaginationParams PaginationParams { get; set; }
-        public FilteringParams FilteringParams { get; set; }
+        public int Page { get; set; }
+        public int Size { get; set; }
+        public string Filter { get; set; }
     }
 }

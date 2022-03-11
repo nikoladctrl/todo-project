@@ -8,5 +8,14 @@ namespace Core.Helpers
     public class FilteringParams
     {
         public string Filter { get; set; }
+
+        public FilteringParams()
+        {
+        }
+
+        public FilteringParams(string filter)
+        {
+            Filter = filter;
+        }   
     }
 }
