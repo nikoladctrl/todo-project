@@ -9,7 +9,7 @@ namespace Core.Helpers
     {
         public List<T> Items { get; set; }
         public PaginationParams Pagination { get; set; }
-        public string Filter { get; set; }
+        public FilteringParams FilteringParams { get; set; }
         
         public PaginationResult()
         {
@@ -21,11 +21,11 @@ namespace Core.Helpers
             Pagination = new PaginationParams(page, size, total);
         }
 
-        public PaginationResult(List<T> items, int page, int size, int total, string filter)
+        public PaginationResult(List<T> items, int page, int size, int total, FilteringParams filteringParams)
         {
             Items = items;
             Pagination = new PaginationParams(page, size, total);
-            Filter = filter;
+            FilteringParams = filteringParams;
         }
     }
 }

@@ -40,25 +40,25 @@ namespace EFCore.Repositories.Todos
             await _context.SaveChangesAsync();
         }
 
-        public async Task<PaginationResult<Todo>> GetTodos(PaginationParams @params)
+        public async Task<PaginationResult<Todo>> GetTodos(Params @params)
         {
             var query = _context.Todos
                                 .OrderBy(o => o.Id)
                                 .AsQueryable();
 
-            if (!String.IsNullOrEmpty(@params.Filter)) {
-                query = query.Where(t => t.Title.ToLower().Contains(@params.Filter.ToLower()) || t.Content.ToLower().Contains(@params.Filter.ToLower()));
+            if (!String.IsNullOrEmpty(@params.FilteringParams.Filter)) {
+                query = query.Where(t => t.Title.ToLower().Contains(@params.FilteringParams.Filter.ToLower()) || t.Content.ToLower().Contains(@params.FilteringParams.Filter.ToLower()));
             }
 
             var total = query.Count();
 
             var todos = await query
-                        .Skip((@params.Page - 1) * @params.Size)
-                        .Take(@params.Size)
+                        .Skip((@params.PaginationParams.Page - 1) * @params.PaginationParams.Size)
+                        .Take(@params.PaginationParams.Size)
                         .AsSingleQuery()
                         .ToListAsync();
 
-            return new PaginationResult<Todo>(todos, @params.Page, @params.Size, total, @params.Filter);
+            return new PaginationResult<Todo>(todos, @params.PaginationParams.Page, @params.PaginationParams.Size, total, @params.FilteringParams);
         }
 
         public async Task<Todo> GetTodo(int id)

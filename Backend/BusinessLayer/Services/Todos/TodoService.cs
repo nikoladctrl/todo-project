@@ -37,7 +37,7 @@ namespace BusinessLayer.Services.Todos
             await _todoRepository.DeleteTodo(id);
         }
 
-        public async Task<PaginationResult<TodoDto>> GetTodos(PaginationParams @params)
+        public async Task<PaginationResult<TodoDto>> GetTodos(Params @params)
         {
             return _mapper.Map<PaginationResult<TodoDto>>(await _todoRepository.GetTodos(@params));
         }

@@ -49,7 +49,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<PaginationResult<TodoDto>>> GetTodos([FromQuery] PaginationParams @params)
+        public async Task<ActionResult<PaginationResult<TodoDto>>> GetTodos([FromQuery] Params @params)
         {
             var todos = await _todoService.GetTodos(@params);
 

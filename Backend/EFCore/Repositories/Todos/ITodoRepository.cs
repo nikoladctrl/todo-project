@@ -12,7 +12,7 @@ namespace EFCore.Repositories.Todos
         Task<Todo> CreateTodo(Todo todo);
         Task<Todo> UpdateTodo(Todo todo);
         Task DeleteTodo(int id);
-        Task<PaginationResult<Todo>> GetTodos(PaginationParams @params);
+        Task<PaginationResult<Todo>> GetTodos(Params @params);
         Task<Todo> GetTodo(int id);
         Task<PaginationResult<Todo>> GetFilteredTodos(PaginationWithFiltersDto @params);
     }
