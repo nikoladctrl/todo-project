@@ -14,6 +14,5 @@ namespace EFCore.Repositories.Todos
         Task DeleteTodo(int id);
         Task<PaginationResult<Todo>> GetTodos(Params @params);
         Task<Todo> GetTodo(int id);
-        Task<PaginationResult<Todo>> GetFilteredTodos(PaginationWithFiltersDto @params);
     }
 }

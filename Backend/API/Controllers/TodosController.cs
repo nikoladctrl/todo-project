@@ -67,15 +67,5 @@ namespace API.Controllers
                 NotFound() :
                 Ok(todo);
         }
-
-        [HttpGet("filter")]
-        public async Task<ActionResult<PaginationResult<TodoDto>>> GetFilteredTodos([FromQuery] PaginationWithFiltersDto @params)
-        {
-            var todos = await _todoService.GetFilteredTodos(@params);
-
-            return (todos == null || todos.Items.Count == 0) ?
-                NotFound() :
-                Ok(todos);
-        }
     }
 }
